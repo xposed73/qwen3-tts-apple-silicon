@@ -45,7 +45,7 @@ MODELS = {
 }
 
 SPEAKER_MAP = {
-    "English": ["Ryan", "Aiden", "Ethan", "Chelsie", "Serena", "Vivian"],
+    "English": ["Ryan", "Aiden", "Serena", "Vivian"],
     "Chinese": ["Vivian", "Serena", "Uncle_Fu", "Dylan", "Eric"],
     "Japanese": ["Ono_Anna"],
     "Korean": ["Sohee"]
@@ -408,12 +408,22 @@ def main_menu():
     print("  5. Voice Design")
     print("  6. Voice Cloning")
     
-    print("\n  q. Exit")
+    print("\n  w. Launch Gradio Web UI")
+    print("  q. Exit")
 
     choice = input("\nSelect: ").strip().lower()
 
     if choice == "q":
         sys.exit()
+
+    if choice == "w":
+        print("\nLaunching Gradio Web UI...")
+        try:
+            from app import main as launch_web
+            launch_web()
+        except Exception as e:
+            print(f"Error launching Web UI: {e}")
+        return
 
     if choice not in MODELS:
         print("Invalid selection.")
@@ -430,10 +440,15 @@ def main_menu():
         run_clone_manager(choice)
 
 
-if __name__ == "__main__":
+def main():
     try:
         os.makedirs(BASE_OUTPUT_DIR, exist_ok=True)
         while True:
             main_menu()
     except KeyboardInterrupt:
         print("\nExiting...")
+
+
+if __name__ == "__main__":
+    main()
+
